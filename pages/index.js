@@ -20,9 +20,7 @@ export default function Home({ story, data }) {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <StoryblokComponent blok={story.content} />
-      </Layout>
+      <StoryblokComponent blok={story.content} />
     </div>
   );
 }
@@ -36,12 +34,14 @@ export async function getStaticProps() {
 
   const storyblokApi = getStoryblokApi();
   let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
+  let { data: config } = await storyblokApi.get("cdn/stories/config");
 
   return {
     props: {
       data: data ? data : null,
       story: data ? data.story : false,
       key: data ? data.story.id : false,
+      config: config ? config.story : false,
     },
     revalidate: 3600,
   };
